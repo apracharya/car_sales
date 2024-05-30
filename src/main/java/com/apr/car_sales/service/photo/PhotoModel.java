@@ -1,6 +1,5 @@
 package com.apr.car_sales.service.photo;
 
-import com.apr.car_sales.service.ad.AdModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

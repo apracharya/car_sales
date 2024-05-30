@@ -1,14 +1,12 @@
 package com.apr.car_sales.persistence.category;
 
-import com.apr.car_sales.persistence.ad.AdEntity;
+import com.apr.car_sales.persistence.car.CarEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,5 +22,5 @@ public class CategoryEntity {
     private String description;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private Set<AdEntity> ads = new HashSet<>();
+    private Set<CarEntity> cars = new HashSet<>();
 }

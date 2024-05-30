@@ -1,7 +1,6 @@
 package com.apr.car_sales.service.category;
 
-import com.apr.car_sales.dtos.ad.AdDto;
-import com.apr.car_sales.service.ad.AdModel;
+import com.apr.car_sales.dtos.car.CarDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,5 +12,5 @@ public class CategoryModel {
     private int id;
     private String type;
     private String description;
-    private List<AdDto> ads;
+    private List<CarDto> cars;
 }

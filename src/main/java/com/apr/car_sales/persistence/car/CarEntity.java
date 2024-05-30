@@ -1,5 +1,6 @@
-package com.apr.car_sales.persistence.ad;
+package com.apr.car_sales.persistence.car;
 
+import com.apr.car_sales.persistence.bid.BidEntity;
 import com.apr.car_sales.persistence.category.CategoryEntity;
 import com.apr.car_sales.persistence.photo.PhotoEntity;
 import com.apr.car_sales.persistence.user.UserEntity;
@@ -9,23 +10,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
-@Table(name = "ad")
+@Table(name = "cars")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdEntity {
+public class CarEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String brand;
     private String model;
 
-    @OneToMany(mappedBy = "ad", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
     private List<PhotoEntity> photos = new ArrayList<>();
 
 //    @ManyToMany(cascade = CascadeType.ALL)
@@ -47,17 +46,19 @@ public class AdEntity {
     @JoinColumn(name = "seller_id")
     private UserEntity seller;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "car_bid",
-            joinColumns = @JoinColumn(name = "car", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "bid", referencedColumnName = "id")
-    )
-    private Set<BidEntity> bids = new HashSet<>();
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
+    private List<BidEntity> bids = new ArrayList<>();
 
-    private Set<UserEntity> bidders = new HashSet<>();
+//    private Set<UserEntity> bidders = new HashSet<>();
 
     private boolean isStock;
     private boolean isBooked;
+
+    @ManyToOne
+    @JoinColumn(name = "booked_id")
+    private UserEntity bookedBy;
+
+    private double bookedPrice;
 
 
 }

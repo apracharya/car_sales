@@ -1,10 +1,33 @@
 package com.apr.car_sales.endpoint;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.apr.car_sales.service.bid.BidModel;
+import com.apr.car_sales.service.bid.BidService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/bids")
 public class BidEndpoint {
+
+    private final BidService bidService;
+
+    public BidEndpoint(BidService bidService) {
+        this.bidService = bidService;
+    }
+
+    @PostMapping("/create/car/{carId}/bidder/{bidderId}")
+    public ResponseEntity<BidModel> createBid(@RequestBody BidModel bidModel,
+                                              @PathVariable int carId,
+                                              @PathVariable int bidderId) {
+        BidModel bid = bidService.createBid(bidModel, carId, bidderId);
+        return new ResponseEntity<>(bid, HttpStatus.OK);
+    }
+
+    @GetMapping("/read/{bidId}")
+    public ResponseEntity<BidModel> readBid(@PathVariable int bidId) {
+        BidModel bid = bidService.readBid(bidId);
+        return new ResponseEntity<>(bid, HttpStatus.OK);
+    }
 
 }

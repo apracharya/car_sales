@@ -1,6 +1,6 @@
 package com.apr.car_sales.service.user;
 
-import com.apr.car_sales.dtos.ad.AdDto;
+import com.apr.car_sales.dtos.car.CarDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,5 +16,7 @@ public class UserModel {
     private String email;
     private String username;
     private String password;
-    private List<AdDto> ads = new ArrayList<>();
+    private List<CarDto> cars = new ArrayList<>();
+    private List<CarDto> bookedCars = new ArrayList<>();
+
 }

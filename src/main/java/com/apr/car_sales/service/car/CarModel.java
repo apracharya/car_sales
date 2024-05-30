@@ -1,7 +1,9 @@
-package com.apr.car_sales.service.ad;
+package com.apr.car_sales.service.car;
 
+import com.apr.car_sales.dtos.bid.BidDto;
 import com.apr.car_sales.dtos.category.CategoryDto;
 import com.apr.car_sales.dtos.user.UserDto;
+import com.apr.car_sales.service.bid.BidModel;
 import com.apr.car_sales.service.photo.PhotoModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +13,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class AdModel {
+public class CarModel {
     private int id;
     private String brand;
     private String model;
@@ -22,7 +24,10 @@ public class AdModel {
     private double kilometers;
     private double price;
     private UserDto seller;
+    private List<BidDto> bids = new ArrayList<>();
     private boolean isStock;
     private boolean isBooked;
+    private UserDto bookedBy;
+    private double bookedPrice;
 
 }

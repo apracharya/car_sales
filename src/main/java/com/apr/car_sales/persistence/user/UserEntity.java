@@ -1,16 +1,14 @@
 package com.apr.car_sales.persistence.user;
 
-import com.apr.car_sales.persistence.ad.AdEntity;
-import com.apr.car_sales.persistence.ad.BidEntity;
+import com.apr.car_sales.persistence.car.CarEntity;
+import com.apr.car_sales.persistence.bid.BidEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -28,14 +26,13 @@ public class UserEntity {
     private String password;
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
-    private List<AdEntity> ads = new ArrayList<>();
+    private List<CarEntity> cars = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_bids",
-            joinColumns = @JoinColumn(name = "user", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "bid", referencedColumnName = "id")
-    )
-    private Set<BidEntity> bids = new HashSet<>();
+    @OneToMany(mappedBy = "bidder", cascade = CascadeType.ALL)
+    private List<BidEntity> bids = new ArrayList<>();
+
+    @OneToMany(mappedBy = "bookedBy", cascade = CascadeType.ALL)
+    private List<CarEntity> bookedCars = new ArrayList<>();
 
 //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    @JoinTable(name = "user_role",

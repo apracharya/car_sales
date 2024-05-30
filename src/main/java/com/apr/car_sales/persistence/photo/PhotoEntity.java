@@ -1,6 +1,6 @@
 package com.apr.car_sales.persistence.photo;
 
-import com.apr.car_sales.persistence.ad.AdEntity;
+import com.apr.car_sales.persistence.car.CarEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +21,7 @@ public class PhotoEntity {
     private String url;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private AdEntity ad;
+    @JoinColumn(name = "car_id")
+    private CarEntity car;
 
 }
