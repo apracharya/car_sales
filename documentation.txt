@@ -1,0 +1,94 @@
+URL:
+    http://localhost:8080/cars
+
+    // create car
+    method: POST
+    path: /create/category/{categoryId}/seller/{sellerId}
+    body: CarModel - brand, model, year (int), colour, kilometers (double), price (double),
+            booked (bool), description, stock (bool)
+    return: CarModel
+
+    // read all cars
+    method: GET
+    path: /read
+    return: List<CarModel>
+
+    // read car
+    method: GET
+    path: /read/{carId}
+    return: CarModel
+
+    // book car
+    method: POST
+    path: /book
+    param: carId, userId, price (double)
+    return: CarModel
+
+    // cancel booking
+    method: POST
+    path: /book/cancel
+    param: carId, userId
+    return: CarModel
+
+    // upload image
+    method: POST
+    path: /image/upload/{carId}
+    param: List<MultipartFile> images (send as form data)
+    return: CarModel
+
+    // read image
+    method: GET
+    path: /image/{imgName}
+    return: void
+
+URL:
+    http://localhost:8080/categories
+
+    // create category
+    method: POST
+    path: /create
+    body: CategoryDto - type, description
+    return: CategoryDto
+
+    // read category
+    method: GET
+    path: /read/{categoryId}
+    return: CategoryModel
+
+    // read all categories
+    method: GET
+    path: /read
+    return: List<CategoryModel>
+
+    // update category
+    method: PUT
+    path: /update/{categoryId}
+    body: CategoryDto - type, description
+    return: CategoryDto
+
+    // delete category
+    method: DELETE
+    path: /delete/{categoryId}
+    return: void
+
+
+URL:
+    http://localhost:8080/users
+
+    // create user
+    method: POST
+    path: /create
+    body: UserModel - firstName, lastName, email (unique), username (unique), password
+    return: UserModel
+
+    // read user
+    method: GET
+    path: /read/{userId}
+    return: UserModel
+
+    // delete user
+    method: DELETE
+    path: /delete/{userId}
+    return: void
+
+

@@ -2,6 +2,9 @@ package com.apr.car_sales.persistence.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+import java.util.Optional;
 
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+    boolean existsByUsername(String username);
+    Optional<UserEntity> findByUsername(String username);
 }

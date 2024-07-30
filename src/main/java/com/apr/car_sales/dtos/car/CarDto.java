@@ -14,6 +14,7 @@ public class CarDto {
     private int id;
     private String brand;
     private String model;
+    private String colour;
     private List<PhotoModel> photos = new ArrayList<>();
     private CategoryDto category;
     private int year;

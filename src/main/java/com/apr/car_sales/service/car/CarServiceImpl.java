@@ -5,6 +5,7 @@ import com.apr.car_sales.persistence.car.CarEntity;
 import com.apr.car_sales.persistence.car.CarRepository;
 import com.apr.car_sales.persistence.category.CategoryEntity;
 import com.apr.car_sales.persistence.category.CategoryRepository;
+import com.apr.car_sales.persistence.photo.PhotoEntity;
 import com.apr.car_sales.persistence.user.UserEntity;
 import com.apr.car_sales.persistence.user.UserRepository;
 import com.apr.car_sales.service.user.UserModel;
@@ -100,9 +101,38 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public CarModel updateCar(CarModel carModel, int id) {
-        return null;
+    public CarModel updateCar(CarModel carModel, int carId) {
+
+        // convert carModel to Entity
+        CarEntity carEntity = modelMapper.map(carModel, CarEntity.class);
+
+        // Fetch existing film
+        CarEntity existingCar = carRepository.findById(carId)
+                .orElseThrow(() -> new ResourceNotFoundException("Car", "car id", carId));
+
+        // Update film details
+        existingCar.setBrand(carEntity.getBrand());
+        existingCar.setModel(carEntity.getModel());
+        existingCar.setColour(carEntity.getColour());
+        existingCar.setYear(carEntity.getYear());
+        existingCar.setDescription(carEntity.getDescription());
+        existingCar.setKilometers(carEntity.getKilometers());
+        existingCar.setPrice(carEntity.getPrice());
+
+
+        // Update photos
+        existingCar.getPhotos().clear();
+
+        for (PhotoEntity photo : carEntity.getPhotos()) {
+            photo.setCar(existingCar);
+            existingCar.getPhotos().add(photo);
+        }
+
+        carRepository.save(existingCar);
+
+        return modelMapper.map(existingCar, CarModel.class); // Or convert existingFilm to FilmModel if needed
     }
+
 
     @Override
     public void deleteCar(int id) {

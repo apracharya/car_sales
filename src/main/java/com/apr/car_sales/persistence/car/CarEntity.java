@@ -23,6 +23,7 @@ public class CarEntity {
     private int id;
     private String brand;
     private String model;
+    private String colour;
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
     private List<PhotoEntity> photos = new ArrayList<>();

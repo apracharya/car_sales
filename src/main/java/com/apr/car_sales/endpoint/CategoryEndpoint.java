@@ -1,6 +1,7 @@
 package com.apr.car_sales.endpoint;
 
 import com.apr.car_sales.dtos.category.CategoryDto;
+import com.apr.car_sales.response.ApiResponse;
 import com.apr.car_sales.service.category.CategoryModel;
 import com.apr.car_sales.service.category.CategoryService;
 import org.springframework.http.HttpStatus;
@@ -47,9 +48,9 @@ public class CategoryEndpoint {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteCategory(@PathVariable("id") int categoryId) {
+    public ApiResponse deleteCategory(@PathVariable("id") int categoryId) {
         categoryService.deleteCategory(categoryId);
-        return new ResponseEntity<>("Category deleted!", HttpStatus.OK);
+        return new ApiResponse("Category deleted!", true);
     }
 
 }
