@@ -115,9 +115,20 @@ public class CarServiceImpl implements CarService {
         existingCar.setModel(carEntity.getModel());
         existingCar.setColour(carEntity.getColour());
         existingCar.setYear(carEntity.getYear());
+        existingCar.setHorsePower(carEntity.getHorsePower());
+        existingCar.setTorque(carEntity.getTorque());
+        existingCar.setTopSpeed(carEntity.getTopSpeed());
+        existingCar.setTo60(carEntity.getTo60());
+        existingCar.setMileage(carEntity.getMileage());
+        existingCar.setEngineType(carEntity.getEngineType());
+        existingCar.setGears(carEntity.getGears());
+        existingCar.setSeats(carEntity.getSeats());
+        existingCar.setBootSpace(carEntity.getBootSpace());
+        existingCar.setNew(carEntity.isNew());
         existingCar.setDescription(carEntity.getDescription());
         existingCar.setKilometers(carEntity.getKilometers());
         existingCar.setPrice(carEntity.getPrice());
+
 
 
         // Update photos

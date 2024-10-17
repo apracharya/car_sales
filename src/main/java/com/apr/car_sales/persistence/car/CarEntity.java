@@ -1,5 +1,6 @@
 package com.apr.car_sales.persistence.car;
 
+import com.apr.car_sales.data.EngineType;
 import com.apr.car_sales.persistence.bid.BidEntity;
 import com.apr.car_sales.persistence.category.CategoryEntity;
 import com.apr.car_sales.persistence.photo.PhotoEntity;
@@ -39,6 +40,18 @@ public class CarEntity {
     private CategoryEntity category;
 
     private int year;
+    private int horsePower;
+    private int torque;
+    private double topSpeed;
+    private double to60;
+    private double mileage;
+    private EngineType engineType;
+    private int gears;
+    private int seats;
+    private double bootSpace;
+    private boolean isNew;
+
+    @Column(length = 1000)
     private String description;
     private double kilometers;
     private double price;
@@ -60,6 +73,5 @@ public class CarEntity {
     private UserEntity bookedBy;
 
     private double bookedPrice;
-
 
 }
