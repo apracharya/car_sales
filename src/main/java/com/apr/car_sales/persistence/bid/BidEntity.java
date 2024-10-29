@@ -17,6 +17,7 @@ public class BidEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private double bidAmount;
+    private double askPrice;
 
     @ManyToOne
     private UserEntity bidder;
@@ -24,4 +25,6 @@ public class BidEntity {
     @ManyToOne
     @JoinColumn(name = "car_id")
     private CarEntity car;
+
+    private boolean acceptBid;
 }

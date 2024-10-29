@@ -37,4 +37,9 @@ public class UserEndpoint {
         return new ApiResponse("User deleted successfully.", true);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<UserModel> loginUser(@RequestBody UserDto userDto) {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

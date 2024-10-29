@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 public class BidModel {
     private int id;
     private double bidAmount;
+    private double askPrice;
     private UserDto bidder;
     private CarDto car;
+    private boolean acceptBid;
 }

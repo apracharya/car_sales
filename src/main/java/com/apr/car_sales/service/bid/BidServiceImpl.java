@@ -10,6 +10,7 @@ import com.apr.car_sales.persistence.user.UserRepository;
 import com.apr.car_sales.service.user.UserModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.reactive.ReactiveResourceSynchronization;
 
 @Component
 public class BidServiceImpl implements BidService {
@@ -69,5 +70,40 @@ public class BidServiceImpl implements BidService {
     @Override
     public void deleteBid(int bidId) {
 
+    }
+
+    @Override
+    public BidModel askPrice(int bidId, double askPrice) {
+        BidEntity bid = bidRepository.findById(bidId)
+                .orElseThrow(() -> new ResourceNotFoundException("Bid", "bid id", bidId));
+
+        bid.setAskPrice(askPrice);
+        bidRepository.save(bid);
+        return modelMapper.map(bid, BidModel.class);
+
+    }
+
+    @Override
+    public BidModel acceptBid(int bidId) {
+        BidEntity bid = bidRepository.findById(bidId)
+                .orElseThrow(() -> new ResourceNotFoundException("Bid", "bid id", bidId));
+        bid.setAcceptBid(true);
+        int carId = bid.getCar().getId();
+        UserEntity bidder = bid.getBidder();
+        CarEntity car = carRepository.findById(carId)
+                .orElseThrow(() -> new ResourceNotFoundException("Car", "car id", carId));
+        car.setBookedBy(bidder);
+        car.setBooked(true);
+
+        return modelMapper.map(bid, BidModel.class);
+    }
+
+    @Override
+    public BidModel rejectBid(int bidId) {
+        BidEntity bid = bidRepository.findById(bidId)
+                .orElseThrow(() -> new ResourceNotFoundException("Bid", "bid id", bidId));
+        bid.setAcceptBid(false);
+
+        return modelMapper.map(bid, BidModel.class);
     }
 }

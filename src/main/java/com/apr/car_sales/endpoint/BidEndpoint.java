@@ -30,4 +30,20 @@ public class BidEndpoint {
         return new ResponseEntity<>(bid, HttpStatus.OK);
     }
 
+    @PutMapping("/update/bid/{bidId}/ask/{askPrice}")
+    public ResponseEntity<BidModel> updateAsk(@RequestBody BidModel bidModel,
+                                              @PathVariable int bidId,
+                                              @PathVariable double askPrice) {
+        return new ResponseEntity<>(bidModel, HttpStatus.OK);
+    }
+
+    @PutMapping("/update/bid/{bidId}")
+    public ResponseEntity<BidModel> updateBid(@RequestBody BidModel bidModel,
+                                              @PathVariable int bidId) {
+        BidModel updateBid = bidService.updateBid(bidModel, bidId);
+        return new ResponseEntity<>(updateBid, HttpStatus.OK);
+    }
+
+
+
 }
