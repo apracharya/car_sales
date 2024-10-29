@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class BidDto {
     private int id;
     private double bidAmount;
+    private double askPrice;
     private UserDto bidder;
 }

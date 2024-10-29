@@ -7,4 +7,9 @@ public interface BidService {
     BidModel readBidsForCar(int carId);
     BidModel updateBid(BidModel bidModel, int bidId);
     void deleteBid(int bidId);
+
+    BidModel askPrice(int bidId, double askPrice);
+
+    BidModel acceptBid(int bidId);
+    BidModel rejectBid(int bidId);
 }
