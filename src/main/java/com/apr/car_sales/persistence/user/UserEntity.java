@@ -2,6 +2,7 @@ package com.apr.car_sales.persistence.user;
 
 import com.apr.car_sales.persistence.car.CarEntity;
 import com.apr.car_sales.persistence.bid.BidEntity;
+import com.apr.car_sales.persistence.purchase.PurchaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -65,6 +66,9 @@ public class UserEntity implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<PurchaseEntity> pruchases = new ArrayList<>();
 
 //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 //    @JoinTable(name = "user_role",

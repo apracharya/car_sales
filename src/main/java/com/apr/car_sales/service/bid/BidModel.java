@@ -2,8 +2,6 @@ package com.apr.car_sales.service.bid;
 
 import com.apr.car_sales.dtos.car.CarDto;
 import com.apr.car_sales.dtos.user.UserDto;
-import com.apr.car_sales.service.car.CarModel;
-import com.apr.car_sales.service.user.UserModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

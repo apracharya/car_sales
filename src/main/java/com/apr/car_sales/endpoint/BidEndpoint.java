@@ -30,11 +30,12 @@ public class BidEndpoint {
         return new ResponseEntity<>(bid, HttpStatus.OK);
     }
 
+    // accessible only by seller
     @PutMapping("/update/bid/{bidId}/ask/{askPrice}")
-    public ResponseEntity<BidModel> updateAsk(@RequestBody BidModel bidModel,
-                                              @PathVariable int bidId,
+    public ResponseEntity<BidModel> updateAsk(@PathVariable int bidId,
                                               @PathVariable double askPrice) {
-        return new ResponseEntity<>(bidModel, HttpStatus.OK);
+        BidModel askedPrice = bidService.askPrice(bidId, askPrice);
+        return new ResponseEntity<>(askedPrice, HttpStatus.OK);
     }
 
     @PutMapping("/update/bid/{bidId}")
@@ -44,6 +45,22 @@ public class BidEndpoint {
         return new ResponseEntity<>(updateBid, HttpStatus.OK);
     }
 
+    @PostMapping("/accept/buyer/{userId}/bid/{bidId}")
+    public ResponseEntity<BidModel> acceptByClient(@PathVariable int bidId, @PathVariable int userId) {
+        BidModel acceptedBid = bidService.acceptByClient(bidId, userId);
+        return new ResponseEntity<>(acceptedBid, HttpStatus.OK);
+    }
 
+    @PostMapping("/acceptOriginal/car/{carId}/user/{userId}")
+    public ResponseEntity<BidModel> acceptOriginalOffer(@PathVariable int carId,
+                                                        @PathVariable int userId) {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/accept/seller/{bidId}")
+    public ResponseEntity<BidModel> acceptBySeller(@PathVariable int bidId) {
+        BidModel acceptedBid = bidService.acceptBySeller(bidId);
+        return new ResponseEntity<>(acceptedBid, HttpStatus.OK);
+    }
 
 }
