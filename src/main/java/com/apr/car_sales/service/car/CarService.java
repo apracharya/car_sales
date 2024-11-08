@@ -7,7 +7,7 @@ public interface CarService {
     CarModel bookCar(int carId, int userId, double bookedPrice);
     CarModel cancelBooking(int carId, int userId);
     CarModel readCar(int id);
-    List<CarModel> readAllCars();
+    List<CarModel> readAllCars(String sortBy, String sortDir);
     CarModel updateCar(CarModel carModel, int id);
     void deleteCar(int id);
 }

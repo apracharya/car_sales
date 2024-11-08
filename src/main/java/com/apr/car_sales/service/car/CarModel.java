@@ -4,7 +4,6 @@ import com.apr.car_sales.data.EngineType;
 import com.apr.car_sales.dtos.bid.BidDto;
 import com.apr.car_sales.dtos.category.CategoryDto;
 import com.apr.car_sales.dtos.user.UserDto;
-import com.apr.car_sales.service.bid.BidModel;
 import com.apr.car_sales.service.photo.PhotoModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;

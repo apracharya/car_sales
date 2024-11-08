@@ -10,6 +10,10 @@ import com.apr.car_sales.persistence.user.UserEntity;
 import com.apr.car_sales.persistence.user.UserRepository;
 import com.apr.car_sales.service.user.UserModel;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -93,8 +97,14 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<CarModel> readAllCars() {
-        List<CarEntity> cars = carRepository.findAll();
+    public List<CarModel> readAllCars(String sortBy, String sortDir) {
+        Sort sort = (sortDir.equalsIgnoreCase("asc")
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending()
+        );
+        Pageable p = PageRequest.of(0, Integer.MAX_VALUE, sort);
+        Page<CarEntity> page = carRepository.findAll(p);
+        List<CarEntity> cars = page.getContent();
         return cars.stream()
                 .map(car -> modelMapper.map(car, CarModel.class))
                 .toList();

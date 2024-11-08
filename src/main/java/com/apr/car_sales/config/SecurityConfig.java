@@ -17,46 +17,46 @@ import org.springframework.stereotype.Component;
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
-    @Autowired
-    private CustomUserDetailService customUserDetailService;
+//    @Autowired
+//    private CustomUserDetailService customUserDetailService;
+//
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
+//
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(this.customUserDetailService).passwordEncoder(passwordEncoder);
+//    }
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(this.customUserDetailService).passwordEncoder(passwordEncoder);
-    }
-
-    private JWTAuthenticationEntryPoint point;
-
-    private JWTAuthenticationFilter filter;
-
-    public SecurityConfig(JWTAuthenticationEntryPoint point, JWTAuthenticationFilter filter) {
-        this.point = point;
-        this.filter = filter;
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        // configuration
-        http.csrf(csrf -> csrf.disable())
-//                .cors(cors -> cors.disable())
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/home/**")
-                        .authenticated()
-                        .requestMatchers("users/login").permitAll()
-                        .requestMatchers("users/create").permitAll()
-                        .requestMatchers("cars/read/**").permitAll()
-                        .requestMatchers("cars/image/**").permitAll()
-                        .requestMatchers("categories/**").permitAll()
-                        .anyRequest().authenticated())
-                .exceptionHandling(ex -> ex.authenticationEntryPoint(point))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        ;
-
-        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
-    }
+//    private JWTAuthenticationEntryPoint point;
+//
+//    private JWTAuthenticationFilter filter;
+//
+//    public SecurityConfig(JWTAuthenticationEntryPoint point, JWTAuthenticationFilter filter) {
+//        this.point = point;
+//        this.filter = filter;
+//    }
+//
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//
+//        // configuration
+//        http.csrf(csrf -> csrf.disable())
+////                .cors(cors -> cors.disable())
+//                .authorizeHttpRequests(auth -> auth.requestMatchers("/home/**")
+//                        .authenticated()
+//                        .requestMatchers("users/login").permitAll()
+//                        .requestMatchers("users/create").permitAll()
+//                        .requestMatchers("cars/read/**").permitAll()
+//                        .requestMatchers("cars/image/**").permitAll()
+//                        .requestMatchers("categories/**").permitAll()
+//                        .anyRequest().authenticated())
+//                .exceptionHandling(ex -> ex.authenticationEntryPoint(point))
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//        ;
+//
+//        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+//
+//        return http.build();
+//    }
 
 }

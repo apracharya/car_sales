@@ -4,6 +4,7 @@ import com.apr.car_sales.data.EngineType;
 import com.apr.car_sales.persistence.bid.BidEntity;
 import com.apr.car_sales.persistence.category.CategoryEntity;
 import com.apr.car_sales.persistence.photo.PhotoEntity;
+import com.apr.car_sales.persistence.purchase.PurchaseEntity;
 import com.apr.car_sales.persistence.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -63,15 +64,16 @@ public class CarEntity {
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
     private List<BidEntity> bids = new ArrayList<>();
 
-//    private Set<UserEntity> bidders = new HashSet<>();
-
     private boolean isStock;
     private boolean isBooked;
 
     @ManyToOne
-    @JoinColumn(name = "booked_id")
+    @JoinColumn(name = "buyer_id") // changed from booked_id
     private UserEntity bookedBy;
 
     private double bookedPrice;
+
+    @OneToOne
+    private PurchaseEntity purchase;
 
 }

@@ -51,8 +51,10 @@ public class CarEndpoint {
     }
 
     @GetMapping("/read")
-    public ResponseEntity<List<CarModel>> readAllCars() {
-        List<CarModel> car = carService.readAllCars();
+    public ResponseEntity<List<CarModel>> readAllCars(@RequestParam(value = "sortBy", defaultValue="id", required=false) String sortBy,
+                                                      @RequestParam(value = "sortDir", defaultValue = "asc", required=false) String sortDir) {
+        List<CarModel> car = carService.readAllCars(sortBy, sortDir);
+
         return new ResponseEntity<>(car, HttpStatus.OK);
     }
 
