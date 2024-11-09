@@ -7,18 +7,13 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.context.annotation.Bean;
 
 
-//@SpringBootApplication
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+//@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication
 public class CarSalesApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CarSalesApplication.class, args);
 		System.out.println("Started!");
-	}
-
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
 	}
 
 }
