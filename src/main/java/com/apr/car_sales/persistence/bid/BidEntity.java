@@ -1,5 +1,6 @@
 package com.apr.car_sales.persistence.bid;
 
+import com.apr.car_sales.data.BidStatus;
 import com.apr.car_sales.persistence.car.CarEntity;
 import com.apr.car_sales.persistence.user.UserEntity;
 import jakarta.persistence.*;
@@ -26,5 +27,6 @@ public class BidEntity {
     @JoinColumn(name = "car_id")
     private CarEntity car;
 
-    private boolean acceptBid;
+    @Enumerated(EnumType.STRING)
+    private BidStatus bidStatus;
 }

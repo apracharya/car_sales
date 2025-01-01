@@ -1,14 +1,12 @@
 package com.apr.car_sales.persistence.purchase;
 
-import com.apr.car_sales.data.PaymentMethod;
+import com.apr.car_sales.data.PurchaseStatus;
 import com.apr.car_sales.persistence.car.CarEntity;
 import com.apr.car_sales.persistence.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Optional;
 
 @Entity
 @Table(name = "purchase")
@@ -26,10 +24,16 @@ public class PurchaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity user;
+    private UserEntity user; // FIXME: change to buyer
 
     private double purchaseAmount;
-    private PaymentMethod paymentMethod;
+
+    @Enumerated(EnumType.STRING)
+    private PurchaseStatus purchaseStatus;
+
+    @OneToOne
+    private PaymentEntity payment;
+
     private boolean isPaid;
     private boolean isDelivered;
 
@@ -40,7 +44,7 @@ public class PurchaseEntity {
     public PurchaseEntity(CarEntity car,
                    UserEntity user,
                    double purchaseAmount,
-                   PaymentMethod paymentMethod,
+                   PaymentEntity payment,
                    boolean isPaid,
                    boolean isDelivered,
                    double rating,
@@ -49,7 +53,7 @@ public class PurchaseEntity {
         this.car = car;
         this.user = user;
         this.purchaseAmount = purchaseAmount;
-        this.paymentMethod = paymentMethod;
+        this.payment = payment;
         this.isPaid = isPaid;
         this.isDelivered = isDelivered;
         this.rating = rating;

@@ -32,6 +32,7 @@ public class SecurityConfig {
                         .requestMatchers("/cars/image").permitAll()
                         .requestMatchers("/categories/read").permitAll()
                         .requestMatchers("/categories/read/**").permitAll()
+                        .requestMatchers("/purchase/readAll").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(point))
