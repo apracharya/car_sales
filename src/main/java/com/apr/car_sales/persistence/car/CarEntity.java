@@ -46,12 +46,20 @@ public class CarEntity {
     private double topSpeed;
     private double to60;
     private double mileage;
+//    private double engineVolume;
+//    private double wheelSize; // Optional
+
+    @Enumerated(EnumType.STRING)
     private EngineType engineType;
     private int gears;
     private int seats;
     private double bootSpace;
     private boolean isNew;
 
+    /**
+     * arko euta short description Optional<String> field banara tellai long description bata
+     * AI le short phrase banauni implement garni
+     */
     @Column(length = 1000)
     private String description;
     private double kilometers;

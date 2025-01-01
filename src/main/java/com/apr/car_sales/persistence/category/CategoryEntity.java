@@ -20,6 +20,7 @@ public class CategoryEntity {
     private int id;
     private String type;
     private String description;
+//    private String longDescription;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private Set<CarEntity> cars = new HashSet<>();

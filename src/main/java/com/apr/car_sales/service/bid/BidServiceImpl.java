@@ -1,6 +1,10 @@
 package com.apr.car_sales.service.bid;
 
+import com.apr.car_sales.data.BidStatus;
 import com.apr.car_sales.data.PaymentMethod;
+import com.apr.car_sales.data.RoleEnum;
+import com.apr.car_sales.dtos.bid.AllBidsDto;
+import com.apr.car_sales.dtos.bid.BidDto;
 import com.apr.car_sales.exception.MismatchException;
 import com.apr.car_sales.exception.ResourceNotFoundException;
 import com.apr.car_sales.persistence.bid.BidEntity;
@@ -16,7 +20,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-// gonna have to change this to purchase instead
+// todo: change this to purchase if applicable
+// todo: research if userId is needed in methods
 @Component
 public class BidServiceImpl implements BidService {
 
@@ -24,7 +29,6 @@ public class BidServiceImpl implements BidService {
     private final CarRepository carRepository;
     private final UserRepository userRepository;
     private final PurchaseRepository purchaseRepository;
-
     private final ModelMapper modelMapper;
 
     public BidServiceImpl(BidRepository bidRepository,
@@ -42,9 +46,9 @@ public class BidServiceImpl implements BidService {
     @Override
     public BidModel createBid(BidModel bidModel, int carId, int bidderId) {
         UserEntity bidder = userRepository.findById(bidderId)
-                .orElseThrow(() -> new ResourceNotFoundException("Bidder", "user id", bidderId));
+                .orElseThrow(() -> new ResourceNotFoundException("bidder", "id", bidderId));
         CarEntity car = carRepository.findById(carId)
-                .orElseThrow(() -> new ResourceNotFoundException("Car", "car id", carId));
+                .orElseThrow(() -> new ResourceNotFoundException("car", "id", carId));
         BidEntity bid = modelMapper.map(bidModel, BidEntity.class);
         bid.setCar(car);
         bid.setBidder(bidder);
@@ -52,46 +56,63 @@ public class BidServiceImpl implements BidService {
         return modelMapper.map(created, BidModel.class);
     }
 
+    // only bidder and seller can read the bid
     @Override
-    public BidModel readBid(int bidId) {
+    public BidModel readBid(int bidId, int userId) {
         BidEntity bid = bidRepository.findById(bidId).
-                orElseThrow(() -> new ResourceNotFoundException("Bid", "bid id", bidId));
+                orElseThrow(() -> new ResourceNotFoundException("bid", "id", bidId));
+        if(bid.getCar().getSeller().getId() != userId && bid.getBidder().getId() != userId) {
+            throw new MismatchException("buyer or seller");
+        }
+
+        return modelMapper.map(bid, BidModel.class);
+    }
+
+
+    // only seller can read this
+    @Override
+    public List<BidDto> readBidsForCar(int carId, int sellerId) {
+        CarEntity car = carRepository.findById(carId)
+                .orElseThrow(() -> new ResourceNotFoundException("car", "id", carId));
+
+        validateUser(sellerId, car.getSeller().getId(), "seller");
+
+        List<BidEntity> bids = car.getBids();
+        return bids.stream()
+                .map(bid -> modelMapper.map(bid, BidDto.class))
+                .toList();
+    }
+
+
+    @Override
+    public BidModel updateBid(BidModel bidModel, int bidId, int userId) {
+        BidEntity bid = bidRepository.findById(bidId)
+                .orElseThrow(() -> new ResourceNotFoundException("bid", "id", bidId));
+
+        validateUser(userId, bid.getBidder().getId(), "bidder");
+
+        bid.setBidAmount(bidModel.getBidAmount());
         return modelMapper.map(bid, BidModel.class);
     }
 
     @Override
-    public List<BidModel> readAllBids() {
-        return bidRepository.findAll()
-                .stream()
-                .map(bid -> modelMapper.map(bid, BidModel.class))
-                .toList();
-    }
-
-    @Override
-    public List<BidModel> readBidsForCar(int carId) {
-        CarEntity car = carRepository.findById(carId)
-                .orElseThrow(() -> new ResourceNotFoundException("car", "car id", carId));
-        List<BidEntity> bids = car.getBids();
-        return bids.stream()
-                .map(bid -> modelMapper.map(bid, BidModel.class))
-                .toList();
-    }
-
-    @Override
-    public BidModel updateBid(BidModel bidModel, int bidId) {
-
-        return null;
-    }
-
-    @Override
-    public void deleteBid(int bidId) {
-        bidRepository.deleteById(bidId);
-    }
-
-    @Override
-    public BidModel askPrice(int bidId, double askPrice) {
+    public void deleteBid(int bidId, int userId) {
         BidEntity bid = bidRepository.findById(bidId)
-                .orElseThrow(() -> new ResourceNotFoundException("Bid", "bid id", bidId));
+                .orElseThrow(() -> new ResourceNotFoundException("bid", "id", bidId));
+
+        validateUser(userId, bid.getBidder().getId(), "bidder");
+        bid.setBidStatus(BidStatus.CANCELLED);
+
+        bidRepository.delete(bid);
+    }
+
+
+    @Override
+    public BidModel counterOffer(int bidId, int sellerId, double askPrice) {
+        BidEntity bid = bidRepository.findById(bidId)
+                .orElseThrow(() -> new ResourceNotFoundException("bid", "id", bidId));
+
+        validateUser(sellerId, bid.getCar().getSeller().getId(), "seller");
 
         bid.setAskPrice(askPrice);
         bidRepository.save(bid);
@@ -99,10 +120,14 @@ public class BidServiceImpl implements BidService {
     }
 
     @Override
-    public BidModel acceptBySeller(int bidId) {
+    public BidModel acceptBySeller(int bidId, int sellerId) {
         BidEntity bid = bidRepository.findById(bidId)
-                .orElseThrow(() -> new ResourceNotFoundException("Bid", "bid id", bidId));
-        bid.setAcceptBid(true);
+                .orElseThrow(() -> new ResourceNotFoundException("bid", "id", bidId));
+
+        validateUser(sellerId, bid.getCar().getSeller().getId(), "seller");
+
+        bid.setBidStatus(BidStatus.ACCEPTED);
+
         bidRepository.save(bid);
 
         double purchaseAmt = bid.getBidAmount();
@@ -110,30 +135,28 @@ public class BidServiceImpl implements BidService {
         int carId = bid.getCar().getId();
         UserEntity bidder = bid.getBidder();
         CarEntity car = carRepository.findById(carId)
-                .orElseThrow(() -> new ResourceNotFoundException("Car", "car id", carId));
+                .orElseThrow(() -> new ResourceNotFoundException("car", "id", carId));
         car.setBookedBy(bidder);
         car.setBooked(true);
         car.setBookedPrice(purchaseAmt);
 
         carRepository.save(car);
 
-        PurchaseEntity purchase = new PurchaseEntity(car, bidder, purchaseAmt, PaymentMethod.BankDeposit, true, true, 4, "");
-        purchaseRepository.save(purchase);
+//        PurchaseEntity purchase = new PurchaseEntity(car, bidder, purchaseAmt, Payment.BankDeposit, true, true, 4, "");
+//        purchaseRepository.save(purchase);
 
         return modelMapper.map(bid, BidModel.class);
     }
 
-    // client accepts seller's askPrice
+    // client accepts seller's counterOffer
     @Override
     public BidModel acceptByClient(int bidId, int userId) {
         BidEntity bid = bidRepository.findById(bidId)
-                .orElseThrow(() -> new ResourceNotFoundException("Bid", "bid id", bidId));
+                .orElseThrow(() -> new ResourceNotFoundException("bid", "id", bidId));
 
-        if(bid.getBidder().getId() != userId) {
-            throw new MismatchException("user", "bid user");
-        }
+        validateUser(userId, bid.getBidder().getId(), "bidder");
 
-        bid.setAcceptBid(true); // seller accept bid
+        bid.setBidStatus(BidStatus.ACCEPTED); // seller accept bid
         bid.setBidAmount(bid.getAskPrice()); // client accept ask price.
         bidRepository.save(bid);
 
@@ -141,7 +164,7 @@ public class BidServiceImpl implements BidService {
         UserEntity bidder = bid.getBidder();
 
         CarEntity car = carRepository.findById(carId)
-                .orElseThrow(() -> new ResourceNotFoundException("Car", "car id", carId));
+                .orElseThrow(() -> new ResourceNotFoundException("car", "id", carId));
         car.setBookedBy(bidder); // this did not work. why?
         car.setBookedPrice(bid.getAskPrice());
         car.setBooked(true);
@@ -150,20 +173,46 @@ public class BidServiceImpl implements BidService {
         return modelMapper.map(bid, BidModel.class);
     }
 
+    // todo: preserve the history by maybe adding a cancel/rejected field in BidEntity
     @Override
-    public BidModel rejectBid(int bidId) {
+    public BidModel rejectBid(int bidId, int sellerId) {
         BidEntity bid = bidRepository.findById(bidId)
-                .orElseThrow(() -> new ResourceNotFoundException("Bid", "bid id", bidId));
-        bid.setAcceptBid(false);
+                .orElseThrow(() -> new ResourceNotFoundException("bid", "id", bidId));
+
+        validateUser(sellerId, bid.getCar().getSeller().getId(), "seller");
+
+        bid.setBidStatus(BidStatus.REJECTED);
 
         return modelMapper.map(bid, BidModel.class);
     }
 
+    // todo: add something to make the purchase thing happen and cancel preserving the record
     @Override
     public BidModel cancelPurchase(int bidId, int userId) {
         BidEntity bid = bidRepository.findById(bidId)
-                .orElseThrow(() -> new ResourceNotFoundException("bid", "bid id", bidId));
+                .orElseThrow(() -> new ResourceNotFoundException("bid", "id", bidId));
+
+        validateUser(userId, bid.getBidder().getId(), "buyer");
 
         return modelMapper.map(bid, BidModel.class);
+    }
+
+    public void validateUser(int expectedId, int actualId, String resource) throws MismatchException {
+        if(actualId != expectedId) {
+            throw new MismatchException(resource);
+        }
+    }
+
+    /**
+     * this might not work. My thought, instead of role table, we could use
+     * a list of RoleEnum in user
+    */
+    public void validateSeller(int userId) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("user", "id", userId));
+        boolean isSeller = user.getRoles().contains(RoleEnum.SELLER);
+        if( ! isSeller) {
+            throw new MismatchException("seller");
+        }
     }
 }

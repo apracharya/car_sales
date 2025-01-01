@@ -43,7 +43,7 @@ public class CarEndpoint {
         this.photoService = photoService;
         this.modelMapper = modelMapper;
     }
-
+    
     @GetMapping("/read/{id}")
     public ResponseEntity<CarModel> readCar(@PathVariable("id") int id) {
         CarModel car = carService.readCar(id);
