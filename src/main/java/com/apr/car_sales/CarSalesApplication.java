@@ -1,5 +1,6 @@
 package com.apr.car_sales;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +14,7 @@ public class CarSalesApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CarSalesApplication.class, args);
-		System.out.println("Started!");
+		System.out.println("Started! ");
 	}
 
 }

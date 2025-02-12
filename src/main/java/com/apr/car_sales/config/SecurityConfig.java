@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/categories/read").permitAll()
                         .requestMatchers("/categories/read/**").permitAll()
                         .requestMatchers("/purchase/readAll").permitAll()
+                        .requestMatchers("/chat/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(point))
