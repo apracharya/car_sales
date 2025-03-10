@@ -8,7 +8,6 @@ import com.apr.car_sales.persistence.category.CategoryRepository;
 import com.apr.car_sales.persistence.photo.PhotoEntity;
 import com.apr.car_sales.persistence.user.UserEntity;
 import com.apr.car_sales.persistence.user.UserRepository;
-import com.apr.car_sales.service.user.UserModel;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component

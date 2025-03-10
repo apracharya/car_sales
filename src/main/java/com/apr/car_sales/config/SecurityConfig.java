@@ -25,6 +25,7 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
 //                .cors(cors -> cors.disable())
                 .authorizeHttpRequests(auth -> auth.requestMatchers("auth/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/cars/read/**").permitAll()
                         .requestMatchers("/cars/read").permitAll()
                         .requestMatchers("/users/create").permitAll()

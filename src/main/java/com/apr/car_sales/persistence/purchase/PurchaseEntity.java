@@ -42,13 +42,13 @@ public class PurchaseEntity {
     private String review;
 
     public PurchaseEntity(CarEntity car,
-                   UserEntity user,
-                   double purchaseAmount,
-                   PaymentEntity payment,
-                   boolean isPaid,
-                   boolean isDelivered,
-                   double rating,
-                   String review){
+                          UserEntity user,
+                          double purchaseAmount,
+                          PaymentEntity payment,
+                          boolean isPaid,
+                          boolean isDelivered,
+                          double rating,
+                          String review){
 
         this.car = car;
         this.user = user;
