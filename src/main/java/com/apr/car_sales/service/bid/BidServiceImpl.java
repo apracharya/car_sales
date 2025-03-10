@@ -1,9 +1,7 @@
 package com.apr.car_sales.service.bid;
 
 import com.apr.car_sales.data.BidStatus;
-import com.apr.car_sales.data.PaymentMethod;
 import com.apr.car_sales.data.RoleEnum;
-import com.apr.car_sales.dtos.bid.AllBidsDto;
 import com.apr.car_sales.dtos.bid.BidDto;
 import com.apr.car_sales.exception.MismatchException;
 import com.apr.car_sales.exception.ResourceNotFoundException;
@@ -11,7 +9,6 @@ import com.apr.car_sales.persistence.bid.BidEntity;
 import com.apr.car_sales.persistence.bid.BidRepository;
 import com.apr.car_sales.persistence.car.CarEntity;
 import com.apr.car_sales.persistence.car.CarRepository;
-import com.apr.car_sales.persistence.purchase.PurchaseEntity;
 import com.apr.car_sales.persistence.purchase.PurchaseRepository;
 import com.apr.car_sales.persistence.user.UserEntity;
 import com.apr.car_sales.persistence.user.UserRepository;
