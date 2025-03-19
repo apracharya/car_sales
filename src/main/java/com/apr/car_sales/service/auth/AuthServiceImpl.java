@@ -1,6 +1,6 @@
 package com.apr.car_sales.service.auth;
 
-import com.apr.car_sales.security.JwtHelper;
+import com.apr.car_sales.security.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,10 +15,10 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserDetailsService userDetailsService;
     private final AuthenticationManager manager;
-    private final JwtHelper helper;
+    private final JwtService helper;
     private Logger logger = LoggerFactory.getLogger(AuthService.class);
 
-    public AuthServiceImpl(UserDetailsService userDetailsService, AuthenticationManager manager, JwtHelper helper) {
+    public AuthServiceImpl(UserDetailsService userDetailsService, AuthenticationManager manager, JwtService helper) {
         this.userDetailsService = userDetailsService;
         this.manager = manager;
         this.helper = helper;
