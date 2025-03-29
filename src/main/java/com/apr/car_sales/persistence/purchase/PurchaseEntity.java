@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class PurchaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @OneToOne
     @JoinColumn(name = "car_id")

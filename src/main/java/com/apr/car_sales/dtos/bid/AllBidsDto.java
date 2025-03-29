@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AllBidsDto {
-    private int id;
+    private long id;
     private UserDto bidder;
     private CarDto car;
 }

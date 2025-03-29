@@ -1,8 +1,11 @@
 package com.apr.car_sales.service.user;
 
-public interface UserService {
-    UserModel readUser(int id);
-    UserModel createUser(UserModel userModel);
+import com.apr.car_sales.dtos.user.UserRequest;
+import com.apr.car_sales.dtos.user.UserResponse;
 
-    void deleteUser(int userId);
+public interface UserService {
+    UserModel readUser(long id);
+    UserResponse updateUser(long id, UserRequest request);
+    void deleteUser(long userId);
+    void recoverDeletedUser(long id);
 }

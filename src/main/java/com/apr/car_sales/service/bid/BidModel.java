@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class BidModel {
-    private int id;
+    private long id;
     private double bidAmount;
     private double askPrice;
     private UserDto bidder;

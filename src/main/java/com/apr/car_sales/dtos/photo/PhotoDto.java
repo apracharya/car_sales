@@ -6,6 +6,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PhotoDto {
-    private int id;
+    private long id;
     private String url;
 }

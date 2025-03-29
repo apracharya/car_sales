@@ -4,34 +4,48 @@ import com.apr.car_sales.persistence.car.CarEntity;
 import com.apr.car_sales.persistence.bid.BidEntity;
 import com.apr.car_sales.persistence.purchase.PurchaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private String firstName;
     private String lastName;
 
     @Column(unique = true, nullable = false)
     private String email;
 
+    private String phone;
+
     @Column(unique = true, nullable = false)
     private String username;
     private String password;
+
+    private boolean isActive = true;
+
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+    )
+    private Set<RoleEntity> roles;
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
     private List<CarEntity> cars = new ArrayList<>();
@@ -47,7 +61,9 @@ public class UserEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .toList();
     }
 
     @Override
@@ -70,18 +86,4 @@ public class UserEntity implements UserDetails {
         return true;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
-    )
-    private Set<RoleEntity> roles = new HashSet<>();
-
-
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinTable(name = "user_role",
-//            joinColumns = @JoinColumn(name = "user", referencedColumnName = "username"),
-//            inverseJoinColumns = @JoinColumn(name = "role", referencedColumnName = "id")
-//    )
-//    private Set<RoleEntity> roles = new HashSet<>();
 }

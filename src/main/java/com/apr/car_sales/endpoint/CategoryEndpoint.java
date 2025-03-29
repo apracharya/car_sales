@@ -33,7 +33,7 @@ public class CategoryEndpoint {
     }
 
     @GetMapping("/read/{id}")
-    public ResponseEntity<CategoryModel> readCategory(@PathVariable("id") int categoryId) {
+    public ResponseEntity<CategoryModel> readCategory(@PathVariable("id") long categoryId) {
         CategoryModel category = categoryService.readCategory(categoryId);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
@@ -42,13 +42,13 @@ public class CategoryEndpoint {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto,
-                                                      @PathVariable("id") int categoryId) {
+                                                      @PathVariable("id") long categoryId) {
         CategoryDto category = categoryService.updateCategory(categoryDto, categoryId);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ApiResponse deleteCategory(@PathVariable("id") int categoryId) {
+    public ApiResponse deleteCategory(@PathVariable("id") long categoryId) {
         categoryService.deleteCategory(categoryId);
         return new ApiResponse("Category deleted!", true);
     }
