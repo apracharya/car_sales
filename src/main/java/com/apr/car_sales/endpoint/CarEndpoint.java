@@ -6,6 +6,7 @@ import com.apr.car_sales.service.car.CarModel;
 import com.apr.car_sales.service.car.CarService;
 import com.apr.car_sales.service.photo.PhotoModel;
 import com.apr.car_sales.service.photo.PhotoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -26,7 +27,8 @@ import java.util.List;
 @CrossOrigin("*")
 @Slf4j
 @RestController
-@RequestMapping("/cars")
+@RequestMapping("/api/cars")
+@Tag(name = "Car APIs")
 public class CarEndpoint {
 
     private final CarService carService;

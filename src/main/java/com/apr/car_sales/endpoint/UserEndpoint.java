@@ -4,13 +4,15 @@ import com.apr.car_sales.dtos.user.UserDto;
 import com.apr.car_sales.response.ApiResponse;
 import com.apr.car_sales.service.user.UserModel;
 import com.apr.car_sales.service.user.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
+@Tag(name = "User APIs")
 public class UserEndpoint {
 
     private final UserService userService;

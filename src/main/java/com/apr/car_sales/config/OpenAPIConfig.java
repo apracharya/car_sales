@@ -7,6 +7,7 @@ import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.tags.Tag;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,20 +28,19 @@ public class OpenAPIConfig {
                 .servers(Arrays.asList(new Server().url("http://localhost:8080").description("local"),
                         new Server().url("https://backendhostedurl").description("live"))
                 )
-//                .tags(Arrays.asList(
-//                        new Tag().name("Auth APIs"), // ui ma chaiya order ma rakhni
-//                        new Tag().name("Course APIs"),
-//                        new Tag().name("Enrollment APIs"),
-//                        new Tag().name("Assignment APIs"),
-//                        new Tag().name("Submission APIs"),
-//                        new Tag().name("Material APIs")
-//                ))
-                .addSecurityItem(new SecurityRequirement().addList("jwt"))
+                .tags(Arrays.asList(
+                        new Tag().name("Auth APIs"),
+                        new Tag().name("User APIs"),
+                        new Tag().name("Car APIs"),
+                        new Tag().name("Bid APIs")
+                ))
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new Components().addSecuritySchemes(
-                        "jwtCookieAuth", new SecurityScheme()
-                                .type(SecurityScheme.Type.APIKEY)
-                                .in(SecurityScheme.In.COOKIE)
-                                .name("jwt")
+                        "bearerAuth", new SecurityScheme()
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .in(SecurityScheme.In.HEADER)
+                                .name("Authorization")
                 ));
     }
 }

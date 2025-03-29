@@ -13,12 +13,15 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "role")
+@Table(name = "roles")
 public class RoleEntity {
     @Id
     private int id;
 
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
+
+    @ManyToMany(mappedBy = "roles")
+    private Set<UserEntity> users;
 
 }

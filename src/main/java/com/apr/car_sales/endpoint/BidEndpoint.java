@@ -4,6 +4,7 @@ import com.apr.car_sales.dtos.bid.BidDto;
 import com.apr.car_sales.response.ApiResponse;
 import com.apr.car_sales.service.bid.BidModel;
 import com.apr.car_sales.service.bid.BidService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,8 @@ import java.util.List;
 
 // todo: api testing has not been done after necessary user validation
 @RestController
-@RequestMapping("/bids")
+@RequestMapping("/api/bids")
+@Tag(name = "Bid APIs")
 public class BidEndpoint {
 
     private final BidService bidService;

@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 @Table(name = "payment")
 public class PaymentEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private double amount;
     private LocalDateTime paymentDate;

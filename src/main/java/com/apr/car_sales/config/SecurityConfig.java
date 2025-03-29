@@ -22,6 +22,15 @@ public class SecurityConfig {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
+    private static final List<String> ALLOWED_URLS = List.of(
+            "/swagger-ui/**",
+            "/api/home/open/**",
+            "/api-docs/**",
+            "/api/test/open",
+            "/h2-console",
+            "/api/users/create"
+    );
+
     @Bean
     public SecurityFilterChain loginSecurityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
@@ -43,7 +52,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/test/open").permitAll()
+                        .requestMatchers(ALLOWED_URLS.toArray(new String[0])).permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

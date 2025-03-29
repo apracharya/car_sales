@@ -12,4 +12,7 @@ public interface PhotoService {
     InputStream getResource(String path, String fileName) throws FileNotFoundException;
 
     List<String> uploadImages(String path, List<MultipartFile> files) throws IOException;
+
+    String uploadImageCloudinary(MultipartFile file);
+
 }

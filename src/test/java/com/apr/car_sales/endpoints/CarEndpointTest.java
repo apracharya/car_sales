@@ -37,7 +37,7 @@ public class CarEndpointTest {
     }
 
     @Test
-    public void testReadCar() {
+    void testReadCar() {
         // Arrange
         int carId = 1;
         CarEntity carEntity = new CarEntity();
@@ -72,7 +72,7 @@ public class CarEndpointTest {
     }
 
     @Test
-    public void testReadCar_NotFound() {
+    void testReadCar_NotFound() {
         // Arrange
         int carId = 999;
         when(carService.readCar(carId)).thenThrow(new ResourceNotFoundException("Car", "car_id", carId));
