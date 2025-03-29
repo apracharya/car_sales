@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class BidEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private double bidAmount;
     private double askPrice;
 

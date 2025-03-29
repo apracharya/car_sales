@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class CarDto {
-    private int id;
+    private long id;
     private String brand;
     private String model;
     private String colour;

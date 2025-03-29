@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class CategoryDto {
-    private int id;
+    private long id;
     private String type;
     private String description;
 }

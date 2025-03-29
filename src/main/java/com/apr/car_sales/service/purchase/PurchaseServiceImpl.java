@@ -8,7 +8,6 @@ import com.apr.car_sales.persistence.bid.BidRepository;
 import com.apr.car_sales.persistence.car.CarRepository;
 import com.apr.car_sales.persistence.purchase.PurchaseEntity;
 import com.apr.car_sales.persistence.purchase.PurchaseRepository;
-import com.apr.car_sales.persistence.user.UserEntity;
 import com.apr.car_sales.persistence.user.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -33,7 +32,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public PurchaseModel createPurchase(PurchaseModel purchaseModel, int bidId) {
+    public PurchaseModel createPurchase(PurchaseModel purchaseModel, long bidId) {
         BidEntity bid = bidRepository.findById(bidId)
                 .orElseThrow(() -> new ResourceNotFoundException("bid", "id", bidId));
 
@@ -46,7 +45,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public PurchaseModel readPurchase(int purchaseId, int userId) {
+    public PurchaseModel readPurchase(long purchaseId, long userId) {
         PurchaseEntity purchase = purchaseRepository.findById(purchaseId)
                 .orElseThrow(() -> new ResourceNotFoundException("purchase", "id", purchaseId));
         if(purchase.getUser().getId() != userId)
@@ -57,7 +56,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
     // this does not look secure!
     @Override
-    public List<PurchaseModel> readAllPurchasesByUser(int buyerId) {
+    public List<PurchaseModel> readAllPurchasesByUser(long buyerId) {
 
 
         // when null this ain't throwing exception!!
@@ -70,7 +69,7 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
 
     @Override
-    public PurchaseModel cancelPurchase(int purchaseId, int buyerId) {
+    public PurchaseModel cancelPurchase(long purchaseId, long buyerId) {
         PurchaseEntity purchase = purchaseRepository.findById(purchaseId)
                 .orElseThrow(() -> new ResourceNotFoundException("purchase", "id", purchaseId));
 

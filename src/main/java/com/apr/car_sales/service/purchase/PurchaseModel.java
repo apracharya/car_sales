@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PurchaseModel {
-    private int id;
+    private long id;
     private CarEntity car;
     private UserEntity user;
     private double purchaseAmount;

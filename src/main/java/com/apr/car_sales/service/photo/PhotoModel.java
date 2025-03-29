@@ -6,6 +6,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PhotoModel {
-    private int id;
+    private long id;
     private String url;
 }

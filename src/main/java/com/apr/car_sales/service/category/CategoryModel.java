@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class CategoryModel {
-    private int id;
+    private long id;
     private String type;
     private String description;
     private List<CarDto> cars;

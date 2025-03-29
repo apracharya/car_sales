@@ -37,7 +37,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public CarModel createCar(CarModel carModel, int categoryId, int sellerId) {
+    public CarModel createCar(CarModel carModel, long categoryId, long sellerId) {
 
         CategoryEntity category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category", "category id", categoryId));
@@ -54,7 +54,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public CarModel bookCar(int carId, int userId, double bookedPrice) {
+    public CarModel bookCar(long carId, long userId, double bookedPrice) {
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "user id", userId));
         CarEntity car = carRepository.findById(carId)
@@ -71,7 +71,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public CarModel cancelBooking(int carId, int userId) {
+    public CarModel cancelBooking(long carId, long userId) {
         CarEntity car = carRepository.findById(carId)
                 .orElseThrow(() -> new ResourceNotFoundException("Car", "car id", carId));
         UserEntity user = userRepository.findById(userId)
@@ -89,7 +89,7 @@ public class CarServiceImpl implements CarService {
 
 
     @Override
-    public CarModel readCar(int id) {
+    public CarModel readCar(long id) {
         CarEntity car = carRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Car", "car_id", id));
         return modelMapper.map(car, CarModel.class);
     }
@@ -109,7 +109,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public CarModel updateCar(CarModel carModel, int carId) {
+    public CarModel updateCar(CarModel carModel, long carId) {
 
         // convert carModel to Entity
         CarEntity carEntity = modelMapper.map(carModel, CarEntity.class);
@@ -154,7 +154,7 @@ public class CarServiceImpl implements CarService {
 
 
     @Override
-    public void deleteCar(int id) {
+    public void deleteCar(long id) {
         carRepository.deleteById(id);
     }
 }

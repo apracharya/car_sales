@@ -1,5 +1,7 @@
 package com.apr.car_sales.endpoint;
 
+import com.apr.car_sales.dtos.auth.RegisterRequest;
+import com.apr.car_sales.dtos.auth.RegisterResponse;
 import com.apr.car_sales.exception.MismatchException;
 import com.apr.car_sales.service.auth.AuthService;
 import com.apr.car_sales.service.auth.JwtRequest;
@@ -8,7 +10,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +21,12 @@ public class AuthEndpoint {
 
     public AuthEndpoint(AuthService authService) {
         this.authService = authService;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest request) {
+        RegisterResponse response = authService.register(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/login-header")
@@ -38,8 +45,4 @@ public class AuthEndpoint {
         }
     }
 
-    @ExceptionHandler(BadCredentialsException.class)
-    public String exceptionHandler() {
-        return "Credentials invalid!";
-    }
 }

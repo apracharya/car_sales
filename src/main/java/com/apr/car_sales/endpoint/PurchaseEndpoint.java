@@ -23,7 +23,7 @@ public class PurchaseEndpoint {
     }
 
     @GetMapping("/readAll")
-    public ResponseEntity<List<PurchaseModel>> readAllByUserId(@RequestParam int userId) {
+    public ResponseEntity<List<PurchaseModel>> readAllByUserId(@RequestParam long userId) {
         List<PurchaseModel> purchases = purchaseService.readAllPurchasesByUser(userId);
         return new ResponseEntity<>(purchases, HttpStatus.OK);
     }

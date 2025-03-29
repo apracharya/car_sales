@@ -1,16 +1,19 @@
 package com.apr.car_sales.service.user;
 
-import com.apr.car_sales.exception.AlreadyExistsException;
+import com.apr.car_sales.dtos.user.UserRequest;
+import com.apr.car_sales.dtos.user.UserResponse;
+import com.apr.car_sales.exception.CustomException;
 import com.apr.car_sales.exception.ResourceNotFoundException;
 import com.apr.car_sales.persistence.user.UserEntity;
 import com.apr.car_sales.persistence.user.UserRepository;
+import com.apr.car_sales.service.BaseService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 
 @Component
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseService implements UserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
@@ -25,37 +28,43 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserModel readUser(int id) {
+    public UserModel readUser(long id) {
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "user id", id));
+        if(!user.isActive()) {
+            throw new CustomException("The user might have been deleted.");
+        }
         return modelMapper.map(user, UserModel.class);
     }
 
     @Override
-    public UserModel createUser(UserModel userModel) {
-        UserEntity entity = modelMapper.map(new UserModel(
-                userModel.getId(),
-                userModel.getFirstName(),
-                userModel.getLastName(),
-                userModel.getEmail(),
-                userModel.getUsername(),
-                this.passwordEncoder.encode(userModel.getPassword()),
-                userModel.getCars(),
-                userModel.getBookedCars()
-        ), UserEntity.class);
-
-        if( ! userRepository.existsByUsername(entity.getUsername())) {
-            UserEntity created = userRepository.save(entity);
-            return modelMapper.map(created, UserModel.class);
-        } else {
-            throw new AlreadyExistsException("User already exists!");
-        }
+    public UserResponse updateUser(long id, UserRequest request) {
+        UserEntity user = findEntityByIdOrThrow("User", id, userRepository::findById);
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setPhone(request.getPhone());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        UserEntity updated = userRepository.save(user);
+        return modelMapper.map(updated, UserResponse.class);
     }
 
     @Override
-    public void deleteUser(int userId) {
+    public void deleteUser(long userId) {
         // remaining here, delete all cars and bids and bookings when user deleted.
-        userRepository.deleteById(userId);
+        UserEntity user = findEntityByIdOrThrow("User", userId, userRepository::findById);
+        user.setActive(false);
+        userRepository.save(user);
+    }
 
+    @Override
+    public void recoverDeletedUser(long userId) {
+        UserEntity user = findEntityByIdOrThrow("User", userId, userRepository::findById);
+        if(user.isActive()) {
+            throw new CustomException("User is already active.");
+        }
+        user.setActive(true);
+        userRepository.save(user);
     }
 }

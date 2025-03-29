@@ -45,7 +45,7 @@ public class CarEndpoint {
     }
     
     @GetMapping("/read/{id}")
-    public ResponseEntity<CarModel> readCar(@PathVariable("id") int id) {
+    public ResponseEntity<CarModel> readCar(@PathVariable("id") long id) {
         CarModel car = carService.readCar(id);
         return new ResponseEntity<>(car, HttpStatus.OK);
     }
@@ -60,23 +60,23 @@ public class CarEndpoint {
 
     @PostMapping("/create/category/{categoryId}/seller/{sellerId}")
     public ResponseEntity<CarModel> createCar(@RequestBody CarModel carModel,
-                                              @PathVariable int categoryId,
-                                              @PathVariable int sellerId) {
+                                              @PathVariable long categoryId,
+                                              @PathVariable long sellerId) {
         CarModel created = carService.createCar(carModel, categoryId, sellerId);
         return new ResponseEntity<>(created, HttpStatus.OK);
     }
 
     @PostMapping("/book")
-    public ResponseEntity<CarModel> bookCar(@RequestParam int car,
-                                            @RequestParam int user,
+    public ResponseEntity<CarModel> bookCar(@RequestParam long car,
+                                            @RequestParam long user,
                                             @RequestParam double price) {
         CarModel carModel = carService.bookCar(car, user, price);
         return new ResponseEntity<>(carModel, HttpStatus.OK);
     }
 
     @PostMapping("/book/cancel")
-    public ResponseEntity<CarModel> cancelBook(@RequestParam int car,
-                                               @RequestParam int user) {
+    public ResponseEntity<CarModel> cancelBook(@RequestParam long car,
+                                               @RequestParam long user) {
         CarModel carModel = carService.cancelBooking(car, user);
         return new ResponseEntity<>(carModel, HttpStatus.OK);
     }
@@ -84,7 +84,7 @@ public class CarEndpoint {
     // files upload
     @PostMapping("/image/upload/{id}")
     public ResponseEntity<CarModel> uploadImages(@RequestParam("images") List<MultipartFile> images,
-                                                  @PathVariable("id") int carId) throws IOException {
+                                                  @PathVariable("id") long carId) throws IOException {
         CarModel carModel = carService.readCar(carId);
         List<String> fileNames = photoService.uploadImages(path, images);
 

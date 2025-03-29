@@ -1,22 +1,21 @@
 package com.apr.car_sales.service.bid;
 
-import com.apr.car_sales.dtos.bid.AllBidsDto;
 import com.apr.car_sales.dtos.bid.BidDto;
 
 import java.util.List;
 
 public interface BidService {
-    BidModel createBid(BidModel bidModel, int carId, int bidderId);
-    BidModel readBid(int bidId, int userId);
-    List<BidDto> readBidsForCar(int carId, int sellerId);
-    BidModel updateBid(BidModel bidModel, int bidId, int userId);
-    void deleteBid(int bidId, int userId);
+    BidModel createBid(BidModel bidModel, long carId, long bidderId);
+    BidModel readBid(long bidId, long userId);
+    List<BidDto> readBidsForCar(long carId, long sellerId);
+    BidModel updateBid(BidModel bidModel, long bidId, long userId);
+    void deleteBid(long bidId, long userId);
 
-    BidModel counterOffer(int bidId, int sellerId, double askPrice);
+    BidModel counterOffer(long bidId, long sellerId, double askPrice);
 
-    BidModel acceptByClient(int bidId, int userId);
-    BidModel acceptBySeller(int bidId, int sellerId);
-    BidModel rejectBid(int bidId, int sellerId);
+    BidModel acceptByClient(long bidId, long userId);
+    BidModel acceptBySeller(long bidId, long sellerId);
+    BidModel rejectBid(long bidId, long sellerId);
 
-    BidModel cancelPurchase(int bidId, int userId);
+    BidModel cancelPurchase(long bidId, long userId);
 }

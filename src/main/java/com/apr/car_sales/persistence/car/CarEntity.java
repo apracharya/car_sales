@@ -24,7 +24,7 @@ import java.util.List;
 public class CarEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private String brand;
     private String model;
     private String colour;
