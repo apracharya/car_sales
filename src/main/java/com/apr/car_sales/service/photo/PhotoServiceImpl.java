@@ -1,17 +1,27 @@
 package com.apr.car_sales.service.photo;
 
+import com.apr.car_sales.persistence.photo.PhotoEntity;
+import com.apr.car_sales.persistence.photo.PhotoRepository;
+import com.cloudinary.Cloudinary;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 public class PhotoServiceImpl implements PhotoService {
+
+    private final Cloudinary cloudinary;
+    private final PhotoRepository photoRepository;
+
+    public PhotoServiceImpl(Cloudinary cloudinary, PhotoRepository photoRepository) {
+        this.cloudinary = cloudinary;
+        this.photoRepository = photoRepository;
+    }
+
     @Override
     public String uploadImage(String path, MultipartFile file) throws IOException {
 
@@ -60,6 +70,33 @@ public class PhotoServiceImpl implements PhotoService {
         }
 
         return fileNames;
+    }
+
+    @Override
+    public String uploadImageCloudinary(MultipartFile file) {
+        try {
+            if (file.isEmpty()) {
+                throw new IllegalArgumentException("File cannot be empty");
+            }
+            HashMap<Object, Object> options = new HashMap<>();
+            options.put("folder", "car_sales");
+            Map uploadedFile = cloudinary.uploader().upload(file.getBytes(), options);
+            String imageUrl = (String) uploadedFile.get("secure_url");
+
+            if (imageUrl == null) {
+                throw new IOException("Failed to upload image to Cloudinary");
+            }
+
+            PhotoEntity image = new PhotoEntity();
+            image.setUrl(imageUrl);
+            photoRepository.save(image);
+
+            return imageUrl;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     @Override

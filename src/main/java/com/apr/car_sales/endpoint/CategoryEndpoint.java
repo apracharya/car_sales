@@ -12,7 +12,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/api/categories")
 public class CategoryEndpoint {
     private final CategoryService categoryService;
 

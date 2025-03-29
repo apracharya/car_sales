@@ -1,5 +1,8 @@
 package com.apr.car_sales.service.auth;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 public interface AuthService {
-    JwtResponse login(JwtRequest request);
+    JwtResponse loginHeader(JwtRequest request);
+    void login(JwtRequest request, HttpServletResponse response);
 }

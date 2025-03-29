@@ -14,7 +14,7 @@ import java.util.List;
 
 // FIXME: everything related to purchase and payment!
 @RestController
-@RequestMapping("/purchase")
+@RequestMapping("/api/purchase")
 public class PurchaseEndpoint {
     private final PurchaseService purchaseService;
 

@@ -7,14 +7,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "photo")
+@Table(name = "photos")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class PhotoEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @Column(name = "url", length = 200)
 //    @Column(columnDefinition="LONGTEXT")

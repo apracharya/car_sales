@@ -122,7 +122,7 @@ public class CarServiceImpl implements CarService {
         existingCar.setBrand(carEntity.getBrand());
         existingCar.setModel(carEntity.getModel());
         existingCar.setColour(carEntity.getColour());
-        existingCar.setYear(carEntity.getYear());
+        existingCar.setProductionYear(carEntity.getProductionYear());
         existingCar.setHorsePower(carEntity.getHorsePower());
         existingCar.setTorque(carEntity.getTorque());
         existingCar.setTopSpeed(carEntity.getTopSpeed());

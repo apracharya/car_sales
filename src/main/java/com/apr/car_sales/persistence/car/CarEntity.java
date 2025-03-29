@@ -8,6 +8,7 @@ import com.apr.car_sales.persistence.purchase.PurchaseEntity;
 import com.apr.car_sales.persistence.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,9 +20,10 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CarEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String brand;
     private String model;
@@ -40,7 +42,7 @@ public class CarEntity {
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
-    private int year;
+    private int productionYear;
     private int horsePower;
     private int torque;
     private double topSpeed;
